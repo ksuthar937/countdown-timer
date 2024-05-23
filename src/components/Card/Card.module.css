@@ -1,0 +1,41 @@
+@import "../../index.css";
+
+.container {
+  background-image: linear-gradient(
+    to top Right,
+    var(--color-purple1),
+    var(--color-purple2),
+    var(--color-purple3),
+    var(--color-blue3),
+    var(--color-blue2),
+    var(--color-blue1)
+  );
+  padding: 1rem;
+  margin: 0.5rem;
+  box-shadow: 5px 10px black;
+  border-radius: 1rem;
+  box-shadow: 0.3em 0.3em 2em rgba(110, 105, 105, 0.4);
+  width: 11rem;
+}
+
+.value {
+  font-size: 4rem;
+}
+
+.type {
+  font-size: 2rem;
+  color: rgb(189, 189, 189);
+}
+
+@media screen and (max-width: 768px) {
+  .container {
+    width: 6rem;
+  }
+  .value {
+    font-size: 2rem;
+  }
+  .type {
+    font-size: 1rem;
+    color: rgb(189, 189, 189);
+  }
+}

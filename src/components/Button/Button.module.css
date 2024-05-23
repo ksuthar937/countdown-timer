@@ -1,0 +1,14 @@
+.btn {
+  font-weight: 600;
+  color: white;
+  border: 0.2rem solid white;
+  border-radius: 0.5rem;
+  margin: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: inherit;
+}
+
+.btn:hover {
+  cursor: pointer;
+  background-color: var(--color-blue4);
+}
