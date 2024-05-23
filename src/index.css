@@ -106,11 +106,22 @@ main {
   font-size: 3rem;
 }
 
+.warning {
+  margin-top: 1rem;
+  color: var(--color-purple1);
+  background-color: white;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+}
+
 @media screen and (max-width: 480px) {
   .title {
     font-size: 2rem;
   }
   .timer {
     flex-wrap: wrap;
+  }
+  .warning {
+    font-size: 0.8rem;
   }
 }

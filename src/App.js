@@ -5,6 +5,7 @@ import { getDifferance, getTimerData } from "./utils/helper";
 
 function App() {
   const [isRunning, setIsRunning] = useState(false);
+  const [isCompleted, setIsCompleted] = useState(false);
   const [dateTime, setDateTime] = useState("");
   const [diff, setDiff] = useState(0);
   const [timer, setTimer] = useState({
@@ -18,12 +19,12 @@ function App() {
     const newDateTime = e.target.value;
     setDateTime(newDateTime);
     setDiff(getDifferance(newDateTime));
+    setIsCompleted(false);
   };
 
   useEffect(() => {
     if (diff >= 0) {
       const { days, hours, minutes, seconds } = getTimerData(diff);
-      console.log(seconds);
       setTimer({ days, hours, minutes, seconds });
     }
   }, [diff]);
@@ -37,6 +38,9 @@ function App() {
           return newDiff >= 0 ? newDiff : 0;
         });
       }, 1000);
+    } else if (isRunning && diff === 0) {
+      setIsCompleted(true);
+      setIsRunning(false);
     }
     return () => clearInterval(intervalId);
   }, [isRunning, diff]);
@@ -61,18 +65,38 @@ function App() {
           disabled={isRunning}
           required
         />
-        {isRunning ? (
+        {diff < 0 ? (
+          <h4 className="warning">
+            Please select a date and time in the future. Past selections are not
+            permitted.
+          </h4>
+        ) : isRunning ? (
           <Button>Cancel Timer</Button>
         ) : (
           <Button>Start Timer</Button>
         )}
       </form>
-      <div className="timer">
-        <Card value={timer.days} type="Days" />
-        <Card value={timer.hours} type="Hours" />
-        <Card value={timer.minutes} type="Minutes" />
-        <Card value={timer.seconds} type="Seconds" />
-      </div>
+      {!isCompleted ? (
+        timer.days >= 100 ? (
+          <h4 className="warning">Selected time is more than 100 days</h4>
+        ) : (
+          <div className="timer">
+            <Card value={timer.days} type="Days" />
+            <Card value={timer.hours} type="Hours" />
+            <Card value={timer.minutes} type="Minutes" />
+            <Card value={timer.seconds} type="Seconds" />
+          </div>
+        )
+      ) : (
+        <div>
+          <h4 className="warning">
+            Countdown Over! Whats next on your adventure?
+          </h4>
+          <audio autoPlay>
+            <source src="tune.mp3" type="audio/ogg" />
+          </audio>
+        </div>
+      )}
     </main>
   );
 }
