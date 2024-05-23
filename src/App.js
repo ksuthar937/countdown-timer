@@ -1,12 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "./components/Button/Button";
 import Card from "./components/Card/Card";
-import { getDifferance, getFormatedTime } from "./utils/helper";
+import { getDifferance, getTimerData } from "./utils/helper";
 
 function App() {
   const [isRunning, setIsRunning] = useState(false);
   const [dateTime, setDateTime] = useState("");
-
+  const [diff, setDiff] = useState(0);
   const [timer, setTimer] = useState({
     days: 0,
     hours: 0,
@@ -14,15 +14,32 @@ function App() {
     seconds: 0,
   });
 
-  console.log(dateTime);
+  const handleInputTime = (e) => {
+    const newDateTime = e.target.value;
+    setDateTime(newDateTime);
+    setDiff(getDifferance(newDateTime));
+  };
 
-  // const curr = getFormatedTime(new Date());
-  // const sel = getFormatedTime(dateTime);
+  useEffect(() => {
+    if (diff >= 0) {
+      const { days, hours, minutes, seconds } = getTimerData(diff);
+      console.log(seconds);
+      setTimer({ days, hours, minutes, seconds });
+    }
+  }, [diff]);
 
-  // console.log(curr);
-  // console.log(sel);
-
-  console.log(getDifferance(dateTime));
+  useEffect(() => {
+    let intervalId;
+    if (isRunning && diff > 0) {
+      intervalId = setInterval(() => {
+        setDiff((prev) => {
+          const newDiff = prev - 1;
+          return newDiff >= 0 ? newDiff : 0;
+        });
+      }, 1000);
+    }
+    return () => clearInterval(intervalId);
+  }, [isRunning, diff]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -40,8 +57,9 @@ function App() {
           type="datetime-local"
           name="datetime"
           value={dateTime}
-          onChange={(e) => setDateTime(e.target.value)}
+          onChange={handleInputTime}
           disabled={isRunning}
+          required
         />
         {isRunning ? (
           <Button>Cancel Timer</Button>

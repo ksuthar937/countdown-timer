@@ -1,42 +1,14 @@
-export const getFormatedTime = (date) => {
-  const res = new Date(date).toLocaleString();
-  return res;
+export const getDifferance = (targetTime) => {
+  const now = new Date();
+  const target = new Date(targetTime);
+  const difference = target - now;
+  return Math.floor(difference / 1000);
 };
 
-export const getDifferance = (selectedTime) => {
-  //   const selectedDate = new Date(selectedTime).getDate();
-  //   const currDate = new Date().getDate();
-
-  //   const selectedHours = new Date(selectedTime).getHours();
-  //   const currHours = new Date().getHours();
-
-  //   const selectedMinutes = new Date(selectedTime).getMinutes();
-  //   const currMinutes = new Date().getMinutes();
-
-  //   const selectedSeconds = new Date(selectedTime).getSeconds();
-  //   const currSeconds = new Date().getSeconds();
-
-  //   console.log({
-  //     selected: {
-  //       selectedDate,
-  //       selectedHours,
-  //       selectedMinutes,
-  //       selectedSeconds,
-  //     },
-  //     cur: {
-  //       currDate,
-  //       currHours,
-  //       currMinutes,
-  //       currSeconds,
-  //     },
-  //   });
-
-  const selected = new Date(selectedTime).getTime();
-  const curr = new Date().getTime();
-
-  const diff = selected - curr;
-
-  console.log(diff / (1000 * 60 * 60 * 24));
-
-  return "ss";
+export const getTimerData = (diff) => {
+  const days = Math.floor(diff / (24 * 60 * 60));
+  const hours = Math.floor((diff % (24 * 60 * 60)) / (60 * 60));
+  const minutes = Math.floor((diff % (60 * 60)) / 60);
+  const seconds = Math.floor(diff % 60);
+  return { days, hours, minutes, seconds };
 };
